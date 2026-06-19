@@ -43,3 +43,10 @@ Playwright — **22/22 ناجحة** على ملفّي تعريف: iPhone 13 (390
 npm i -D @playwright/test && npx playwright install chromium
 npx playwright test
 ```
+
+---
+## 🚀 النشر والاختبار
+- **الرابط:** https://az212z.github.io/design-skill-jazan/ · **المستودع:** https://github.com/az212z/design-skill-jazan
+- **Playwright:** ✅ status 200، صفر أخطاء console، نموذج تفاعلي، قائمة جوال ملء الشاشة (390/390)، لا تمرير أفقي، صفر صور مكسورة. 
+- **Lighthouse:** الأداء 76 · الوصولية 100 · أفضل الممارسات 100 · SEO 100
+- **التقييم (قوقل):** 4.5 (149) · **المدينة:** جازان · **Backend:** غير مربوط (نموذج → واتساب/اتصال + localStorage) · **الصور:** حقيقية من خرائط قوقل، مُنقّاة من صور المنافسين.
