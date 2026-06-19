@@ -1,0 +1,109 @@
+/* ============================================================
+   Design Skill — Premium Motion Layer (additive, non-breaking)
+   Loaded AFTER style.css. Enhances existing .reveal + adds
+   scroll progress, staggered reveals, hero image settle,
+   button/card micro-interactions, floating WhatsApp, count-up.
+   ============================================================ */
+
+/* ---- scroll progress bar (injected by motion.js) ---- */
+#ds-prog{
+  position:fixed; top:0; inset-inline:0; height:3px; z-index:1200;
+  transform-origin:right; transform:scaleX(0);
+  background:linear-gradient(90deg, var(--accent), var(--sand));
+  will-change:transform; pointer-events:none;
+}
+
+/* ---- enhanced reveals (override base .reveal transition) ---- */
+.reveal{
+  opacity:0;
+  transform:translateY(30px) scale(.984);
+  transition:opacity .9s var(--ease-out), transform .9s var(--ease-out);
+  will-change:opacity, transform;
+}
+.reveal.in{opacity:1; transform:none;}
+
+/* directional flavour for the hero */
+.hero-copy.reveal{transform:translateY(20px);}
+.hero-visual.reveal{transform:translateY(34px) scale(.96);}
+
+/* staggered reveal inside grids/lists */
+.services-grid .reveal:nth-child(1){transition-delay:.00s}
+.services-grid .reveal:nth-child(2){transition-delay:.08s}
+.services-grid .reveal:nth-child(3){transition-delay:.16s}
+.services-grid .reveal:nth-child(4){transition-delay:.24s}
+.services-grid .reveal:nth-child(5){transition-delay:.32s}
+.work-grid .reveal:nth-child(1){transition-delay:.00s}
+.work-grid .reveal:nth-child(2){transition-delay:.10s}
+.work-grid .reveal:nth-child(3){transition-delay:.20s}
+.work-grid .reveal:nth-child(4){transition-delay:.30s}
+
+/* ---- hero image: slow settle-in + soft parallax hook ---- */
+.hero-frame img{
+  transform:scale(1.12);
+  transition:transform 1.5s var(--ease-out);
+  will-change:transform;
+}
+.hero-visual.in .hero-frame img{transform:scale(1.0);}
+/* gentle sheen sweep once revealed */
+.hero-frame::before{
+  content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(115deg, transparent 38%, rgba(255,255,255,.22) 50%, transparent 62%);
+  transform:translateX(-120%); opacity:0;
+}
+.hero-visual.in .hero-frame::before{animation:ds-sheen 1.5s var(--ease-out) .55s 1;}
+@keyframes ds-sheen{0%{transform:translateX(-120%);opacity:0}20%{opacity:1}100%{transform:translateX(120%);opacity:0}}
+
+/* ---- hero badge: gentle float + count-up styling ---- */
+.hero-badge{animation:ds-float 6.5s ease-in-out infinite;}
+@keyframes ds-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* ---- primary button: arrow + magnetic-ready ---- */
+.btn{transition:transform .3s var(--ease-out), background .3s var(--ease-out), box-shadow .3s var(--ease-out), color .3s var(--ease-out);}
+.btn-primary{position:relative; will-change:transform;}
+.btn-primary::after{
+  content:"\2190"; display:inline-block; margin-inline-start:8px;
+  transition:transform .35s var(--ease-out);
+}
+.btn-primary:hover{transform:translateY(-3px); box-shadow:0 16px 30px -14px rgba(184,92,56,.55);}
+.btn-primary:hover::after{transform:translateX(-6px);}
+.btn-ghost:hover{transform:translateY(-3px);}
+
+/* ---- service cards: accent line draw + icon pop ---- */
+.service-card{position:relative; overflow:hidden;}
+.service-card::before{
+  content:""; position:absolute; top:0; inset-inline:0; height:3px;
+  background:var(--accent); transform:scaleX(0); transform-origin:right;
+  transition:transform .45s var(--ease-out);
+}
+.service-card:hover::before{transform:scaleX(1);}
+.service-card .svc-icon{transition:transform .4s var(--ease-out), color .3s;}
+.service-card:hover .svc-icon{transform:translateY(-3px) scale(1.08); color:var(--accent-deep);}
+.service-card .svc-index{transition:color .35s, transform .35s var(--ease-out);}
+.service-card:hover .svc-index{color:var(--accent); transform:translateY(-2px);}
+
+/* work tiles: zoom on hover */
+.work-tile img{transition:transform .8s var(--ease-out);}
+.work-tile:hover img{transform:scale(1.06);}
+
+/* why-list numbers: subtle reveal accent */
+.why-num{transition:color .4s var(--ease-out);}
+
+/* ---- enhance the EXISTING WhatsApp FAB with a pulse halo ---- */
+.fab-wa{position:relative;}
+.fab-wa::before{
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  background:#25D366; z-index:-1; animation:ds-pulse 2.4s ease-out infinite;
+}
+@keyframes ds-pulse{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(1.85);opacity:0}}
+
+/* count-up helper: avoid layout shift while animating */
+.ds-counting{font-variant-numeric:tabular-nums;}
+
+/* ---- respect reduced motion: disable everything non-essential ---- */
+@media (prefers-reduced-motion:reduce){
+  #ds-prog{display:none;}
+  .reveal{transition:none; opacity:1; transform:none;}
+  .hero-frame img{transform:none; transition:none;}
+  .hero-frame::before, .hero-badge, .fab-wa::before{animation:none;}
+  .btn-primary::after{transition:none;}
+}
